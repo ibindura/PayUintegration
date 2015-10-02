@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Innocent Bindura</authors>
+    <owners>Innocent Bindura</owners>
+    <licenseUrl>https://github.com/ibindura/PayUintegration/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/ibindura/PayUintegration</projectUrl>
+    <iconUrl>http://help.payu.co.za/s/en_GB-1988229788/4394/a32f094df7825f58c6a417309475c6c954804a27.32/_/images/logo/confluence-logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>PayUMea</description>
+    <releaseNotes>Redirect Payment page For PayUMea</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+  </metadata>
+</package>

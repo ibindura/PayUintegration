@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.ServiceModel;
+using System.Text;
+using System.Xml;
 using Bindsoft.PayuIntergration.PayUWcf;
 
 namespace Bindsoft.PayuIntergration
@@ -11,14 +13,51 @@ namespace Bindsoft.PayuIntergration
 		private readonly string _api;
 
 		private readonly EnterpriseAPISoapClient _client;
-		public RunPayUComms(string username, string password, string apiurl, string safeKey,string api)
+		public RunPayUComms(string username, string password, string apiurl, string safeKey, string api)
 		{
 			_safeKey = safeKey;
 			_api = api;
-			_client = new EnterpriseAPISoapClient();
 
+			var binding = new BasicHttpBinding
+			{
+				Name = "EnterpriseAPISoapServiceSoapBinding1",
+				CloseTimeout = new TimeSpan(0, 0, 1, 0),
+				OpenTimeout = new TimeSpan(0, 0, 1, 0),
+				ReceiveTimeout = new TimeSpan(0, 0, 10, 0),
+				SendTimeout = new TimeSpan(0, 0, 10, 0),
+				AllowCookies = false,
+				BypassProxyOnLocal = false,
+				HostNameComparisonMode = HostNameComparisonMode.StrongWildcard,
+				MaxBufferSize = 65536,
+				MessageEncoding = WSMessageEncoding.Text,
+				TextEncoding = Encoding.UTF8,
+				TransferMode = TransferMode.Buffered,
+				UseDefaultWebProxy = true,
+				Security = new BasicHttpSecurity
+				{
+					Message = new BasicHttpMessageSecurity
+					{
+						ClientCredentialType = BasicHttpMessageCredentialType.UserName,
+					},
+					Transport = new HttpTransportSecurity
+					{
+						ClientCredentialType = HttpClientCredentialType.None,
+						ProxyCredentialType = HttpProxyCredentialType.None,
+					},
+					Mode = BasicHttpSecurityMode.Transport
+				},
+				ReaderQuotas = new XmlDictionaryReaderQuotas
+				{
+					MaxDepth = 32,
+					MaxStringContentLength = 8192,
+					MaxArrayLength = 16384,
+					MaxBytesPerRead = 4096,
+					MaxNameTableCharCount = 16384
+				}
+			};
+			var address = new EndpointAddress(apiurl);
+			_client = new EnterpriseAPISoapClient(binding,address);
 			_client.Endpoint.Behaviors.Add(new InspectorBehavior(new ClientInspector(new SecurityHeader(username, password))));
-			_client.Endpoint.Address = new EndpointAddress(apiurl);
 
 		}
 
